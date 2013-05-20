@@ -17,11 +17,16 @@ int main(int argc, char *argv[])
 	aux_vector_t *my_auxvector;
 
 	mygraph = graph_mat_adj_init(30);
+	my_auxvector = aux_vector_init(30);
 
 	printf("grafo criado...\n");
 
 
 	graph_mat_adj_insert_vertex(mygraph, 0, 2);
+	aux_vector_addvertex(my_auxvector, 0, 2);
+
+	graph_mat_adj_insert_vertex(mygraph, 1, 3);
+	aux_vector_addvertex(my_auxvector, 1, 3);
 
 	graph_mat_adj_print_vertexes(mygraph);
 
@@ -30,9 +35,8 @@ int main(int argc, char *argv[])
 	graph_mat_adj_print_edges(mygraph);
 
 
+	//destroy graph and aux vector
 	graph_mat_adj_destroy(mygraph);
-
-	my_auxvector = aux_vector_init(100);
 	aux_vector_destroy(my_auxvector);
 
 	return 0;

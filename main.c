@@ -9,10 +9,12 @@
 #include <stdio.h>
 
 #include "graph_mat_adj.h"
+#include "aux_vector.h"
 
 int main(int argc, char *argv[])
 {
 	GRAPH_MAT_ADJ *mygraph;
+	aux_vector_t *my_auxvector;
 
 	mygraph = graph_mat_adj_init(30);
 
@@ -29,6 +31,9 @@ int main(int argc, char *argv[])
 
 
 	graph_mat_adj_destroy(mygraph);
+
+	my_auxvector = aux_vector_init(100);
+	aux_vector_destroy(my_auxvector);
 
 	return 0;
 }

@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <limits.h>
 #include "graph_mat_adj.h"
 
 
@@ -29,7 +30,10 @@ GRAPH_MAT_ADJ* graph_mat_adj_init(int total_vertexes)
 		mygraph->edge[i] = (int*)malloc(sizeof(int) * total_vertexes);
 
 		for(j = 0; j < total_vertexes; j++)
-			mygraph->edge[i][j] = 0;
+		{
+			if(i != j) mygraph->edge[i][j] = INT_MAX;
+			else mygraph->edge[i][j] = 0;
+		}
 	}
 
 	memset(mygraph->vertex, 0, total_vertexes * sizeof(int));
@@ -64,7 +68,7 @@ void graph_mat_adj_destroy(GRAPH_MAT_ADJ *mygraph)
 
 void graph_mat_adj_insert_vertex(GRAPH_MAT_ADJ *mygraph, int pos, int value)
 {
-	if(pos < (mygraph->total_vertexes -1)
+	if(pos < (mygraph->total_vertexes)
 			&& pos >= 0) mygraph->vertex[pos] = value;
 
 	else {

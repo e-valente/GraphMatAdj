@@ -53,3 +53,32 @@ void aux_vector_addpredec(aux_vector_t *my_auxvector, int pos, int value)
 	my_auxvector->predec[pos] = value;
 }
 
+void aux_vector_print(aux_vector_t *my_auxvector)
+{
+	int i;
+	printf("Printing aux vector...\n\n");
+
+	printf("Printing vertexes...");
+
+	for(i = 0; i < my_auxvector->total; i++)
+	{
+		printf("%d ", my_auxvector->vertex[i]);
+
+	}
+
+	printf("\n");
+
+	printf("Printing costs...");
+
+	for(i = 0; i < my_auxvector->total; i++)
+	{
+		printf("%d ", my_auxvector->vertex[i]);
+
+	}
+
+	printf("\n");
+
+
+
+
+}

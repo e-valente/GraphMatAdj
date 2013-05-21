@@ -14,6 +14,7 @@ typedef struct aux_vector_t
 	int *cost;
 	int *predec;
 	int *isvalid;
+	int *min_cost;
 
 	int total;
 
@@ -25,6 +26,7 @@ void aux_vector_destroy(aux_vector_t *my_auxvector);
 void aux_vector_addvertex(aux_vector_t *my_auxvector, int pos, int value);
 void aux_vector_addcost(aux_vector_t *my_auxvector, int pos, int value);
 void aux_vector_addpredec(aux_vector_t *my_auxvector, int pos, int value);
+void aux_vector_addmincost(aux_vector_t *my_auxvector, int pos, int value);
 
 void aux_vector_print(aux_vector_t *my_auxvector);
 

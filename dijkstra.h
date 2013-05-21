@@ -14,4 +14,6 @@
 void dijkstra(GRAPH_MAT_ADJ *mygraph, int posvertex_ini, int posvertex_end, aux_vector_t* my_auxvector);
 void dijkstra_init(GRAPH_MAT_ADJ *mygraph, aux_vector_t* my_auxvector);
 
+void aux_vector_calcmincost(aux_vector_t *my_auxvector);
+
 #endif /* DIJKSTRA_H_ */

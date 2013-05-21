@@ -33,14 +33,15 @@ int main(int argc, char *argv[])
 
 	graph_mat_adj_insert_edge(mygraph, 0, 1, 20);
 	graph_mat_adj_insert_edge(mygraph, 0, 2, 40);
+	graph_mat_adj_insert_edge(mygraph, 0, 4, 150);
 	graph_mat_adj_insert_edge(mygraph, 1, 3, 60);
-	graph_mat_adj_insert_edge(mygraph, 1, 4, 20);
-	graph_mat_adj_insert_edge(mygraph, 2, 4, 40);
-	graph_mat_adj_insert_edge(mygraph, 3, 4, 60);
+	graph_mat_adj_insert_edge(mygraph, 2, 3, 10);
+	graph_mat_adj_insert_edge(mygraph, 3, 4, 20);
 
-	//graph_mat_adj_print_edges(mygraph);
 
-	dijkstra(mygraph, my_auxvector);
+	graph_mat_adj_print_edges(mygraph);
+
+	dijkstra(mygraph, 0, 4, my_auxvector);
 
 	aux_vector_print(my_auxvector);
 

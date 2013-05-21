@@ -7,6 +7,7 @@
 
 
 #include <stdlib.h>
+#include <stdio.h>
 #include "aux_vector.h"
 
 aux_vector_t *aux_vector_init(int total)
@@ -58,7 +59,7 @@ void aux_vector_print(aux_vector_t *my_auxvector)
 	int i;
 	printf("Printing aux vector...\n\n");
 
-	printf("Printing vertexes...");
+	printf("Printing vertexes...\n");
 
 	for(i = 0; i < my_auxvector->total; i++)
 	{
@@ -68,16 +69,36 @@ void aux_vector_print(aux_vector_t *my_auxvector)
 
 	printf("\n");
 
-	printf("Printing costs...");
+	printf("Printing costs...\n");
 
 	for(i = 0; i < my_auxvector->total; i++)
 	{
-		printf("%d ", my_auxvector->vertex[i]);
+		printf("%d ", my_auxvector->cost[i]);
 
 	}
 
 	printf("\n");
 
+	printf("Printing predecs...\n");
+
+	for(i = 0; i < my_auxvector->total; i++)
+	{
+		printf("%d ", my_auxvector->predec[i]);
+
+	}
+
+	printf("\n");
+
+
+	printf("Printing isvalid?...\n");
+
+	for(i = 0; i < my_auxvector->total; i++)
+	{
+		printf("%d ", my_auxvector->isvalid[i]);
+
+	}
+
+	printf("\n");
 
 
 

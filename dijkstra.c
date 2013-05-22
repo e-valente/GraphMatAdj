@@ -9,13 +9,19 @@
 #include <stdio.h>
 #include "graph_mat_adj.h"
 #include "aux_vector.h"
+#include "tree.h"
 #include "dijkstra.h"
 
-void dijkstra(GRAPH_MAT_ADJ *mygraph, int posvertex_ini, int posvertex_end, aux_vector_t* my_auxvector)
+void dijkstra(GRAPH_MAT_ADJ *mygraph, int posvertex_ini, int posvertex_end, aux_vector_t* my_auxvector, Tree* mytree)
 {
 	int i;
+	int pos, pos_parent_on_tree, pos_child_on_tree;
 	//preenche o vetor de predec
 	dijkstra_init(mygraph, my_auxvector);
+
+
+
+
 
 	printf("Arestas:..\n");
 
@@ -25,14 +31,61 @@ void dijkstra(GRAPH_MAT_ADJ *mygraph, int posvertex_ini, int posvertex_end, aux_
 
 		//ecoar p/ aux vector
 		aux_vector_addcost(my_auxvector, i, mygraph->edge[posvertex_ini][i]);
-		//após isso, internamente addcost chama calc mincost
+		aux_vector_update_predec(my_auxvector, i, -1);
+
 
 
 	}
 
-	aux_vector_calcmincost(my_auxvector);
-	printf("retornando indice min cost: %d\n", aux_vector_getmincost(my_auxvector));
 
+	//insiro o primeiro elemento na árvore
+	pos = posvertex_ini;
+	aux_vector_update_isvalid(my_auxvector, pos, 0);
+	printf("\n->inserindo %d\n", mygraph->vertex[pos]);
+
+
+
+	//insere segundo elemento
+	//pos -> será o primeiro elemento
+	aux_vector_updatecost(my_auxvector, mygraph, pos);
+	aux_vector_calcmincost(my_auxvector);
+	pos = aux_vector_getmincost(my_auxvector);
+	aux_vector_next_insert_on_tree(my_auxvector, &pos_parent_on_tree, &pos_child_on_tree);
+	printf("\n->inserindo %d e o pai é %d\n", pos_child_on_tree, pos_parent_on_tree );
+	aux_vector_update_isvalid(my_auxvector, pos, 0);
+
+
+
+	//insere terceiro elemento
+	//pos -> será o primeiro elemento
+	aux_vector_updatecost(my_auxvector, mygraph, pos);
+	aux_vector_calcmincost(my_auxvector);
+	pos = aux_vector_getmincost(my_auxvector);
+	aux_vector_next_insert_on_tree(my_auxvector, &pos_parent_on_tree, &pos_child_on_tree);
+	printf("\n->inserindo %d e o pai é %d\n", pos_child_on_tree, pos_parent_on_tree );
+	aux_vector_update_isvalid(my_auxvector, pos, 0);
+
+	//insere quarto elemento
+	//pos -> será o primeiro elemento
+	aux_vector_updatecost(my_auxvector, mygraph, pos);
+	aux_vector_calcmincost(my_auxvector);
+	pos = aux_vector_getmincost(my_auxvector);
+	aux_vector_next_insert_on_tree(my_auxvector, &pos_parent_on_tree, &pos_child_on_tree);
+	printf("\n->inserindo %d e o pai é %d\n", pos_child_on_tree, pos_parent_on_tree );
+	aux_vector_update_isvalid(my_auxvector, pos, 0);
+
+	//insere quinto elemento
+	//pos -> será o primeiro elemento
+	aux_vector_updatecost(my_auxvector, mygraph, pos);
+	aux_vector_calcmincost(my_auxvector);
+	pos = aux_vector_getmincost(my_auxvector);
+	aux_vector_next_insert_on_tree(my_auxvector, &pos_parent_on_tree, &pos_child_on_tree);
+	printf("\n->inserindo %d e o pai é %d\n", pos_child_on_tree, pos_parent_on_tree );
+	aux_vector_update_isvalid(my_auxvector, pos, 0);
+
+
+	//printf("\n\nprinting tree..\n");
+	//printInOrder(mytree->root);
 
 
 	printf("\n");
@@ -48,7 +101,7 @@ void dijkstra_init(GRAPH_MAT_ADJ *mygraph, aux_vector_t* my_auxvector)
 	{
 		aux_vector_addvertex(my_auxvector, i, mygraph->vertex[i]);
 		aux_vector_addcost(my_auxvector, i, 0);
-		aux_vector_addpredec(my_auxvector, i, -1);
+		aux_vector_update_predec(my_auxvector, i, -1);
 		aux_vector_addmincost(my_auxvector, i, 0);
 
 

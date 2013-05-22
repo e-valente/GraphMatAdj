@@ -26,11 +26,11 @@ int main(int argc, char *argv[])
 	printf("grafo criado...\n");
 
 
-	graph_mat_adj_insert_vertex(mygraph, 0, 1);
-	graph_mat_adj_insert_vertex(mygraph, 1, 2);
-	graph_mat_adj_insert_vertex(mygraph, 2, 3);
-	graph_mat_adj_insert_vertex(mygraph, 3, 4);
-	graph_mat_adj_insert_vertex(mygraph, 4, 5);
+	graph_mat_adj_insert_vertex(mygraph, 0, 0);
+	graph_mat_adj_insert_vertex(mygraph, 1, 1);
+	graph_mat_adj_insert_vertex(mygraph, 2, 2);
+	graph_mat_adj_insert_vertex(mygraph, 3, 3);
+	graph_mat_adj_insert_vertex(mygraph, 4, 4);
 
 	//graph_mat_adj_print_vertexes(mygraph);
 
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 
 	graph_mat_adj_print_edges(mygraph);
 
-	dijkstra(mygraph, 0, 4, my_auxvector);
+	dijkstra(mygraph, 0, 4, my_auxvector, mytree);
 
 	aux_vector_print(my_auxvector);
 

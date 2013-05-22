@@ -8,6 +8,8 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <limits.h>
+#include "graph_mat_adj.h"
 #include "aux_vector.h"
 
 aux_vector_t *aux_vector_init(int total)
@@ -55,11 +57,6 @@ void aux_vector_addcost(aux_vector_t *my_auxvector, int pos, int value)
 
 }
 
-void aux_vector_addpredec(aux_vector_t *my_auxvector, int pos, int value)
-{
-	my_auxvector->predec[pos] = value;
-}
-
 void aux_vector_addmincost(aux_vector_t *my_auxvector, int pos, int value)
 {
 	my_auxvector->min_cost[pos] = value;
@@ -70,11 +67,24 @@ int aux_vector_calcmincost(aux_vector_t *my_auxvector)
 {
 	int i, min_pos, min_cost;
 
+
+	//precisamos primeiro zerar o mincost atual
+	i = aux_vector_getmincost(my_auxvector);
+	if(i >= 0)  my_auxvector->min_cost[i] = 0;
+
+
 	i = 0;
+	min_cost = 0;
+
+
+
 
 	do{
-		min_cost = my_auxvector->cost[i];
-		min_pos = i;
+		if(my_auxvector->isvalid[i] == 1){
+			min_cost = my_auxvector->cost[i];
+			min_pos = i;
+
+		}
 		i++;
 	}while(min_cost == 0);
 
@@ -82,7 +92,9 @@ int aux_vector_calcmincost(aux_vector_t *my_auxvector)
 
 	for(i = 0; i < my_auxvector->total; i++)
 	{
-		if(my_auxvector->cost[i] < min_cost && my_auxvector->cost[i] != 0)
+		if(my_auxvector->cost[i] < min_cost &&
+				my_auxvector->cost[i] != 0 &&
+				my_auxvector->isvalid[i] == 1)
 		{
 			min_cost = my_auxvector->cost[i];
 			min_pos = i;
@@ -95,6 +107,20 @@ int aux_vector_calcmincost(aux_vector_t *my_auxvector)
 	return min_pos;
 }
 
+
+void aux_vector_update_predec(aux_vector_t *my_auxvector, int pos_vertex, int pos_predec)
+{
+	my_auxvector->predec[pos_vertex] = pos_predec;
+
+
+}
+
+void aux_vector_update_isvalid(aux_vector_t *my_auxvector, int pos, int value)
+{
+	my_auxvector->isvalid[pos] = value;
+
+
+}
 
 int aux_vector_getmincost(aux_vector_t *my_auxvector)
 {
@@ -109,6 +135,56 @@ int aux_vector_getmincost(aux_vector_t *my_auxvector)
 
 
 	return -1;
+}
+
+void aux_vector_updatecost(aux_vector_t *my_auxvector, GRAPH_MAT_ADJ *mygraph, int pos)
+{
+	//temos que procurar com quem
+	//o elemento atual faz arestas
+	//ecoar seus pesos e atualizar se necessario
+	//o vetor de custo
+
+	int i;
+
+	for(i = 0; i < mygraph->total_vertexes; i++)
+	{
+		//pra ter uma aresta nao pode ser zero e nao pode ser infinito
+		if(mygraph->edge[pos][i] > 0 && mygraph->edge[pos][i] < INT_MAX)
+		{
+			if (my_auxvector->cost[i] > my_auxvector->cost[pos] + mygraph->edge[pos][i]) {
+
+				my_auxvector->cost[i] = my_auxvector->cost[pos] + mygraph->edge[pos][i];
+
+
+			}
+
+			//atualiza tambem o predec
+			// i-> vertice atual visitado ; pos-> quem esta visitando (predec)
+			aux_vector_update_predec(my_auxvector, i , pos);
+
+		}
+
+	}
+
+}
+
+
+int aux_vector_next_insert_on_tree(aux_vector_t *my_auxvector,int *pos_parent_on_tree, int *pos_child_on_tree)
+{
+	int i;
+
+	for(i = 0; i < my_auxvector->total; i++)
+	{
+		if(my_auxvector->min_cost[i] == 1)
+		{
+			*pos_parent_on_tree = my_auxvector->predec[i];
+			*pos_child_on_tree = my_auxvector->vertex[i];
+
+		}
+	}
+
+	return -1;
+
 }
 
 void aux_vector_print(aux_vector_t *my_auxvector)

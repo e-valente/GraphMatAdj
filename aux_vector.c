@@ -187,6 +187,69 @@ int aux_vector_next_insert_on_tree(aux_vector_t *my_auxvector,int *pos_parent_on
 
 }
 
+int my_auxvector_travel_tree(GRAPH_MAT_ADJ *mygraph, aux_vector_t * my_auxvector, int pos_start, int pos_end)
+{
+	int pos_vertex, pos_predec;
+	int total, control;
+
+	total = my_auxvector->total;
+
+	//verifica range válido das posicoes
+	if(pos_start < 0 || pos_end < 0 || pos_start >= total ||
+			pos_end >= total || (pos_end - pos_start < 0))
+	{
+		fprintf(stderr, "\nmy_auxvector_travel_tree: Invalid range!\n");
+		return -1;
+
+	}
+
+	pos_vertex = pos_end;
+	pos_predec = my_auxvector->predec[pos_vertex];
+
+	//usada pra caso tivermos um vetor
+	//aux mal formado
+	control = 0;
+
+	while(pos_vertex != pos_start && control < 100)
+	{
+		printf("passando de %d a %d com custo: %d\n",my_auxvector->vertex[pos_predec],
+				my_auxvector->vertex[pos_vertex], mygraph->edge[pos_predec][pos_vertex]);
+		pos_vertex = pos_predec;
+		pos_predec = my_auxvector->predec[pos_vertex];
+
+		control++;
+
+	}
+
+	//caso der overflow
+	//vetor aux mal formado, avisaremos
+	if(control >= 100)
+	{
+		fprintf(stderr, "\nmy_auxvector_travel_tree: Overflow, bad aux vector!\n");
+		return -1;
+	}
+
+
+	return 0;
+}
+
+
+int aux_vector_has_valid_elems(aux_vector_t * my_auxvector)
+{
+	int i;
+
+
+	//se tiver 1 elemento setado
+	//o vetor ainda é valido
+	for(i = 0; i < my_auxvector->total; i++)
+	{
+		if(my_auxvector->isvalid[i] == 1) return 1;
+
+	}
+
+
+	return 0;
+}
 void aux_vector_print(aux_vector_t *my_auxvector)
 {
 	int i;

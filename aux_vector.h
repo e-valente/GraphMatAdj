@@ -27,7 +27,9 @@ void aux_vector_addvertex(aux_vector_t *my_auxvector, int pos, int value);
 void aux_vector_addcost(aux_vector_t *my_auxvector, int pos, int value);
 void aux_vector_addpredec(aux_vector_t *my_auxvector, int pos, int value);
 void aux_vector_addmincost(aux_vector_t *my_auxvector, int pos, int value);
+int aux_vector_getmincost(aux_vector_t *my_auxvector);
 
+int aux_vector_calcmincost(aux_vector_t *my_auxvector);
 void aux_vector_print(aux_vector_t *my_auxvector);
 
 

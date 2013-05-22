@@ -65,6 +65,52 @@ void aux_vector_addmincost(aux_vector_t *my_auxvector, int pos, int value)
 	my_auxvector->min_cost[pos] = value;
 }
 
+
+int aux_vector_calcmincost(aux_vector_t *my_auxvector)
+{
+	int i, min_pos, min_cost;
+
+	i = 0;
+
+	do{
+		min_cost = my_auxvector->cost[i];
+		min_pos = i;
+		i++;
+	}while(min_cost == 0);
+
+
+
+	for(i = 0; i < my_auxvector->total; i++)
+	{
+		if(my_auxvector->cost[i] < min_cost && my_auxvector->cost[i] != 0)
+		{
+			min_cost = my_auxvector->cost[i];
+			min_pos = i;
+		}
+
+	}
+
+	my_auxvector->min_cost[min_pos] = 1;
+
+	return min_pos;
+}
+
+
+int aux_vector_getmincost(aux_vector_t *my_auxvector)
+{
+	int i;
+
+	for(i = 0; i < my_auxvector->total; i++)
+	{
+		if(my_auxvector->min_cost[i] == 1)
+			return i;
+
+	}
+
+
+	return -1;
+}
+
 void aux_vector_print(aux_vector_t *my_auxvector)
 {
 	int i;

@@ -281,9 +281,11 @@ Node* searchValueOnTree(Node *nodeRoot, int value)
 
 void destroyTree(Tree *mytree)
 {
-	destroyTreeNodes(mytree->root);
+	if(mytree->root != NULL) {
+		destroyTreeNodes(mytree->root);
 
-	free(mytree);
+		free(mytree);
+	}
 }
 
 void destroyTreeNodes(Node *mynode)

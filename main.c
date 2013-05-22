@@ -10,15 +10,18 @@
 
 #include "graph_mat_adj.h"
 #include "aux_vector.h"
+#include "tree.h"
 #include "dijkstra.h"
 
 int main(int argc, char *argv[])
 {
 	GRAPH_MAT_ADJ *mygraph;
 	aux_vector_t *my_auxvector;
+	Tree *mytree;
 
 	mygraph = graph_mat_adj_init(5);
 	my_auxvector = aux_vector_init(5);
+	mytree = buildTree();
 
 	printf("grafo criado...\n");
 
@@ -49,6 +52,7 @@ int main(int argc, char *argv[])
 	//destroy graph and aux vector
 	graph_mat_adj_destroy(mygraph);
 	aux_vector_destroy(my_auxvector);
+	destroyTree(mytree);
 
 	return 0;
 }

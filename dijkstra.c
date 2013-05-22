@@ -9,18 +9,14 @@
 #include <stdio.h>
 #include "graph_mat_adj.h"
 #include "aux_vector.h"
-#include "tree.h"
 #include "dijkstra.h"
 
-void dijkstra(GRAPH_MAT_ADJ *mygraph, int posvertex_ini, int posvertex_end, aux_vector_t* my_auxvector, Tree* mytree)
+void dijkstra(GRAPH_MAT_ADJ *mygraph, int posvertex_ini, int posvertex_end, aux_vector_t* my_auxvector)
 {
 	int i;
 	int pos, pos_parent_on_tree, pos_child_on_tree;
 	//preenche o vetor de predec
 	dijkstra_init(mygraph, my_auxvector);
-
-
-
 
 
 	printf("Arestas:..\n");

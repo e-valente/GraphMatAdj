@@ -39,6 +39,8 @@ int aux_vector_next_insert_on_tree(aux_vector_t *my_auxvector,int *pos_parent_on
 int my_auxvector_travel_tree(GRAPH_MAT_ADJ *mygraph, aux_vector_t * my_auxvector, int pos_start, int pos_end);
 int aux_vector_has_valid_elems(aux_vector_t * my_auxvector);
 
+//lab3 exer1
+int my_auxvector_travel_tree_and_return_min_cost(GRAPH_MAT_ADJ *mygraph, aux_vector_t * my_auxvector, int pos_start, int pos_end);
 
 
 #endif /* AUX_VECTOR_H_ */

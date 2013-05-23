@@ -66,11 +66,19 @@ void aux_vector_addmincost(aux_vector_t *my_auxvector, int pos, int value)
 int aux_vector_calcmincost(aux_vector_t *my_auxvector)
 {
 	int i, min_pos, min_cost;
+	int lastpos_mincost;
 
 
 	//precisamos primeiro zerar o mincost atual
 	i = aux_vector_getmincost(my_auxvector);
-	if(i >= 0)  my_auxvector->min_cost[i] = 0;
+	if(i >= 0)  {
+		//bk, necessario para
+		//caso o grafo seja desconectado
+		//temos que voltar essa posicao
+		lastpos_mincost = i;
+		//limpa
+		my_auxvector->min_cost[i] = 0;
+	}
 
 
 	i = 0;
@@ -99,6 +107,16 @@ int aux_vector_calcmincost(aux_vector_t *my_auxvector)
 			min_cost = my_auxvector->cost[i];
 			min_pos = i;
 		}
+
+	}
+
+	//se custo é infinito chegamos ao
+	//fim (grafo desconectado)
+	if(min_cost == INT_MAX)
+	{
+		//volta a posicao antiga
+		my_auxvector->min_cost[lastpos_mincost] = 1;
+		return -1;
 
 	}
 
@@ -151,7 +169,9 @@ void aux_vector_updatecost(aux_vector_t *my_auxvector, GRAPH_MAT_ADJ *mygraph, i
 		//pra ter uma aresta nao pode ser zero e nao pode ser infinito
 		if(mygraph->edge[pos][i] > 0 && mygraph->edge[pos][i] < INT_MAX)
 		{
-			if (my_auxvector->cost[i] > my_auxvector->cost[pos] + mygraph->edge[pos][i]) {
+
+			if (my_auxvector->cost[i] > my_auxvector->cost[pos] + mygraph->edge[pos][i] &&
+					my_auxvector->cost[pos] != INT_MAX) {
 
 				my_auxvector->cost[i] = my_auxvector->cost[pos] + mygraph->edge[pos][i];
 
@@ -160,7 +180,7 @@ void aux_vector_updatecost(aux_vector_t *my_auxvector, GRAPH_MAT_ADJ *mygraph, i
 
 			//atualiza tambem o predec
 			// i-> vertice atual visitado ; pos-> quem esta visitando (predec)
-			aux_vector_update_predec(my_auxvector, i , pos);
+			if(my_auxvector->cost[i] != 0) aux_vector_update_predec(my_auxvector, i , pos);
 
 		}
 
@@ -212,8 +232,10 @@ int my_auxvector_travel_tree(GRAPH_MAT_ADJ *mygraph, aux_vector_t * my_auxvector
 
 	while(pos_vertex != pos_start && control < 100)
 	{
+		/*
 		printf("passando de %d a %d com custo: %d\n",my_auxvector->vertex[pos_predec],
 				my_auxvector->vertex[pos_vertex], mygraph->edge[pos_predec][pos_vertex]);
+				*/
 		pos_vertex = pos_predec;
 		pos_predec = my_auxvector->predec[pos_vertex];
 
@@ -231,6 +253,14 @@ int my_auxvector_travel_tree(GRAPH_MAT_ADJ *mygraph, aux_vector_t * my_auxvector
 
 
 	return 0;
+}
+
+int my_auxvector_travel_tree_and_return_min_cost(GRAPH_MAT_ADJ *mygraph, aux_vector_t * my_auxvector, int pos_start, int pos_end)
+{
+	int total;
+
+	return my_auxvector->cost[pos_end];
+
 }
 
 

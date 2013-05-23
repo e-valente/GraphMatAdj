@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <limits.h>
 
 #include "graph_mat_adj.h"
 #include "aux_vector.h"
@@ -17,44 +18,58 @@ int main(int argc, char *argv[])
 	GRAPH_MAT_ADJ *mygraph;
 	aux_vector_t *my_auxvector;
 
-	/*exemplo da wikipedia
-	 *
-	 */
+	//entrada lab3 - exer1
+	int nvertex, nedges, src_vertex, dst_vertex, weight;
+	int max_cost, trips;
+	int i;
+
+	scanf("%d", &nvertex);
+	scanf("%d", &nedges);
+
+
+
+	mygraph = graph_mat_adj_init(nvertex);
+	my_auxvector = aux_vector_init(nvertex);
+
+	//insere vertices
+	for(i = 0; i < nvertex; i++)
+	{
+		graph_mat_adj_insert_vertex(mygraph, i, i);
+
+	}
+
+
+	//insere arestas
+	for(i = 0; i < nedges; i++)
+	{
+		scanf("%d %d %d", &src_vertex, &dst_vertex, &weight);
+		graph_mat_adj_insert_edge(mygraph, src_vertex, dst_vertex, weight);
+		graph_mat_adj_insert_edge(mygraph, dst_vertex, src_vertex, weight);
+
+	}
+
+
+	scanf("%d", &trips);
+
+	for(i = 0; i< trips; i++)
+	{
+		scanf("%d %d", &src_vertex, &dst_vertex);
+		dijkstra(mygraph, src_vertex, my_auxvector);
+		max_cost = dijkstra_travel_tree_and_return_min_cost(mygraph, my_auxvector, src_vertex, dst_vertex);
+
+		if(max_cost < 0 || max_cost == INT_MAX)
+			printf("no path\n");
+		else printf("%d\n", max_cost);
+
+	}
+
+
+
+	//dijkstra(mygraph, src_vertex, my_auxvector);
+
 
 
 	/*
-	mygraph = graph_mat_adj_init(6);
-	my_auxvector = aux_vector_init(6);
-	mytree = buildTree();
-
-	printf("grafo criado...\n");
-
-
-	graph_mat_adj_insert_vertex(mygraph, 0, 0);
-	graph_mat_adj_insert_vertex(mygraph, 1, 1);
-	graph_mat_adj_insert_vertex(mygraph, 2, 2);
-	graph_mat_adj_insert_vertex(mygraph, 3, 3);
-	graph_mat_adj_insert_vertex(mygraph, 4, 4);
-	graph_mat_adj_insert_vertex(mygraph, 5, 5);
-
-
-	//graph_mat_adj_print_vertexes(mygraph);
-
-	graph_mat_adj_insert_edge(mygraph, 0, 1, 7);
-	graph_mat_adj_insert_edge(mygraph, 0, 2, 9);
-	graph_mat_adj_insert_edge(mygraph, 0, 5, 14);
-	graph_mat_adj_insert_edge(mygraph, 1, 2, 10);
-	graph_mat_adj_insert_edge(mygraph, 1, 3, 15);
-	graph_mat_adj_insert_edge(mygraph, 2, 3, 11);
-	graph_mat_adj_insert_edge(mygraph, 2, 5, 2);
-	graph_mat_adj_insert_edge(mygraph, 3, 4, 6);
-	graph_mat_adj_insert_edge(mygraph, 4, 5, 9);
-
-
-	graph_mat_adj_print_edges(mygraph);
-
-	*/
-
 	mygraph = graph_mat_adj_init(5);
 	my_auxvector = aux_vector_init(5);
 
@@ -82,7 +97,9 @@ int main(int argc, char *argv[])
 	dijkstra_travel_tree(mygraph, my_auxvector, 0, 4);
 
 	aux_vector_print(my_auxvector);
+	 */
 
+	//aux_vector_print(my_auxvector);
 
 	//destroy graph and aux vector
 	graph_mat_adj_destroy(mygraph);

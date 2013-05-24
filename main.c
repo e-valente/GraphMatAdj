@@ -12,13 +12,16 @@
 #include "graph_mat_adj.h"
 #include "aux_vector.h"
 #include "dijkstra.h"
+#include "prim.h"
 
 int main(int argc, char *argv[])
 {
 	GRAPH_MAT_ADJ *mygraph;
 	aux_vector_t *my_auxvector;
+	int max_cost;
 
-	//entrada lab3 - exer1
+	//entrada lab3 - exer2
+	/*
 	int nvertex, nedges, src_vertex, dst_vertex, weight;
 	int max_cost, trips;
 	int i;
@@ -55,7 +58,7 @@ int main(int argc, char *argv[])
 	{
 		scanf("%d %d", &src_vertex, &dst_vertex);
 		dijkstra(mygraph, src_vertex, my_auxvector);
-		max_cost = dijkstra_travel_tree_and_return_min_cost(mygraph, my_auxvector, src_vertex, dst_vertex);
+		max_cost = dijkstra_travel_tree_and_return_min_cost_dijkstra(mygraph, my_auxvector, src_vertex, dst_vertex);
 
 		if(max_cost < 0 || max_cost == INT_MAX)
 			printf("no path\n");
@@ -63,13 +66,13 @@ int main(int argc, char *argv[])
 
 	}
 
-
+	 */
 
 	//dijkstra(mygraph, src_vertex, my_auxvector);
 
 
 
-	/*
+
 	mygraph = graph_mat_adj_init(5);
 	my_auxvector = aux_vector_init(5);
 
@@ -93,13 +96,18 @@ int main(int argc, char *argv[])
 
 
 
-	dijkstra(mygraph, 0, 4, my_auxvector);
-	dijkstra_travel_tree(mygraph, my_auxvector, 0, 4);
+	//dijkstra(mygraph, 0, 4, my_auxvector);
+	//dijkstra_travel_tree(mygraph, my_auxvector, 0, 4);
+
+	prim(mygraph, 0, my_auxvector);
 
 	aux_vector_print(my_auxvector);
-	 */
 
-	//aux_vector_print(my_auxvector);
+	max_cost = prim_travel_tree_and_return_max_cost(mygraph, my_auxvector, 0, 3);
+
+	if(max_cost < 0 || max_cost == INT_MAX)
+		printf("no path\n");
+	else printf("%d\n", max_cost);
 
 	//destroy graph and aux vector
 	graph_mat_adj_destroy(mygraph);

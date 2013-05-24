@@ -15,7 +15,7 @@ void dijkstra(GRAPH_MAT_ADJ *mygraph, int posvertex_ini, aux_vector_t* my_auxvec
 void dijkstra_init(GRAPH_MAT_ADJ *mygraph, aux_vector_t* my_auxvector);
 void dijkstra_travel_tree(GRAPH_MAT_ADJ *mygraph, aux_vector_t *my_auxvector, int pos_start, int pos_end);
 
-//lab3 exer1
+//lab3 exer2
 int dijkstra_travel_tree_and_return_min_cost(GRAPH_MAT_ADJ *mygraph, aux_vector_t *my_auxvector, int pos_start, int pos_end);
 
 

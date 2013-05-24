@@ -30,7 +30,8 @@ void aux_vector_addpredec(aux_vector_t *my_auxvector, int pos, int value);
 void aux_vector_addmincost(aux_vector_t *my_auxvector, int pos, int value);
 int aux_vector_getmincost(aux_vector_t *my_auxvector);
 
-void aux_vector_updatecost(aux_vector_t *my_auxvector, GRAPH_MAT_ADJ *mygraph, int pos);
+void aux_vector_updatecost_dijkstra(aux_vector_t *my_auxvector, GRAPH_MAT_ADJ *mygraph, int pos);
+void aux_vector_updatecost_prim(aux_vector_t *my_auxvector, GRAPH_MAT_ADJ *mygraph, int pos);
 int aux_vector_calcmincost(aux_vector_t *my_auxvector);
 void aux_vector_print(aux_vector_t *my_auxvector);
 void aux_vector_update_predec(aux_vector_t *my_auxvector, int pos_predec, int pos_vertex);
@@ -40,7 +41,8 @@ int my_auxvector_travel_tree(GRAPH_MAT_ADJ *mygraph, aux_vector_t * my_auxvector
 int aux_vector_has_valid_elems(aux_vector_t * my_auxvector);
 
 //lab3 exer1
-int my_auxvector_travel_tree_and_return_min_cost(GRAPH_MAT_ADJ *mygraph, aux_vector_t * my_auxvector, int pos_start, int pos_end);
+int my_auxvector_travel_tree_and_return_min_cost_dijkstra(GRAPH_MAT_ADJ *mygraph, aux_vector_t * my_auxvector, int pos_start, int pos_end);
+int my_auxvector_travel_tree_and_return_max_cost_prim(GRAPH_MAT_ADJ *mygraph, aux_vector_t * my_auxvector, int pos_start, int pos_end);
 
 
 #endif /* AUX_VECTOR_H_ */

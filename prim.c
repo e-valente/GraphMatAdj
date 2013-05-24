@@ -1,22 +1,21 @@
 /*
- * dijkstra.c
+ * prim.c
  *
- *  Created on: May 20, 2013
+ *  Created on: May 23, 2013
  *      Author: emanuel
  */
-
 #include <stdlib.h>
 #include <stdio.h>
 #include "graph_mat_adj.h"
 #include "aux_vector.h"
-#include "dijkstra.h"
+#include "prim.h"
 
-void dijkstra(GRAPH_MAT_ADJ *mygraph, int posvertex_ini, aux_vector_t* my_auxvector)
+void prim(GRAPH_MAT_ADJ *mygraph, int posvertex_ini, aux_vector_t* my_auxvector)
 {
 	int i;
 	int pos, pos_parent_on_tree, pos_child_on_tree;
 	//preenche o vetor de predec
-	dijkstra_init(mygraph, my_auxvector);
+	prim_init(mygraph, my_auxvector);
 
 
 
@@ -39,7 +38,7 @@ void dijkstra(GRAPH_MAT_ADJ *mygraph, int posvertex_ini, aux_vector_t* my_auxvec
 	{
 		//insere segundo elemento
 		//pos -> será o primeiro elemento
-		aux_vector_updatecost_dijkstra(my_auxvector, mygraph, pos);
+		aux_vector_updatecost_prim(my_auxvector, mygraph, pos);
 		pos = aux_vector_calcmincost(my_auxvector);
 
 		if(pos != -1){
@@ -53,7 +52,7 @@ void dijkstra(GRAPH_MAT_ADJ *mygraph, int posvertex_ini, aux_vector_t* my_auxvec
 
 }
 
-void dijkstra_init(GRAPH_MAT_ADJ *mygraph, aux_vector_t* my_auxvector)
+void prim_init(GRAPH_MAT_ADJ *mygraph, aux_vector_t* my_auxvector)
 {
 	int i;
 	int total = mygraph->total_vertexes;
@@ -70,14 +69,17 @@ void dijkstra_init(GRAPH_MAT_ADJ *mygraph, aux_vector_t* my_auxvector)
 
 }
 
-void dijkstra_travel_tree(GRAPH_MAT_ADJ *mygraph, aux_vector_t *my_auxvector, int pos_start, int pos_end)
+void prim_travel_tree(GRAPH_MAT_ADJ *mygraph, aux_vector_t *my_auxvector, int pos_start, int pos_end)
 {
 	my_auxvector_travel_tree(mygraph, my_auxvector, pos_start, pos_end);
 }
 
-int dijkstra_travel_tree_and_return_min_cost(GRAPH_MAT_ADJ *mygraph, aux_vector_t *my_auxvector, int pos_start, int pos_end)
+
+
+int prim_travel_tree_and_return_max_cost(GRAPH_MAT_ADJ *mygraph, aux_vector_t *my_auxvector, int pos_start, int pos_end)
 {
-	return my_auxvector_travel_tree_and_return_min_cost_dijkstra(mygraph, my_auxvector, pos_start, pos_end);
+	return my_auxvector_travel_tree_and_return_max_cost_prim(mygraph, my_auxvector, pos_start, pos_end);
 
 }
+
 

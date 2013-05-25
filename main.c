@@ -18,10 +18,9 @@ int main(int argc, char *argv[])
 {
 	GRAPH_MAT_ADJ *mygraph;
 	aux_vector_t *my_auxvector;
-	int max_cost;
 
 	//entrada lab3 - exer2
-	/*
+	//entrada lab3 - exer2
 	int nvertex, nedges, src_vertex, dst_vertex, weight;
 	int max_cost, trips;
 	int i;
@@ -47,6 +46,8 @@ int main(int argc, char *argv[])
 	{
 		scanf("%d %d %d", &src_vertex, &dst_vertex, &weight);
 		graph_mat_adj_insert_edge(mygraph, src_vertex, dst_vertex, weight);
+
+		//se o grafo nao for direcionado
 		graph_mat_adj_insert_edge(mygraph, dst_vertex, src_vertex, weight);
 
 	}
@@ -54,25 +55,31 @@ int main(int argc, char *argv[])
 
 	scanf("%d", &trips);
 
+	//encontra arvore geradora
+	//prim(mygraph, 1, my_auxvector);
+
 	for(i = 0; i< trips; i++)
 	{
 		scanf("%d %d", &src_vertex, &dst_vertex);
-		dijkstra(mygraph, src_vertex, my_auxvector);
-		max_cost = dijkstra_travel_tree_and_return_min_cost_dijkstra(mygraph, my_auxvector, src_vertex, dst_vertex);
+
+
+		//printf("comecando do %d\n", src_vertex);
+		prim(mygraph, src_vertex, my_auxvector);
+		max_cost = prim_travel_tree_and_return_max_cost(mygraph, my_auxvector, src_vertex, dst_vertex);
+
+		//aux_vector_print(my_auxvector);
 
 		if(max_cost < 0 || max_cost == INT_MAX)
 			printf("no path\n");
 		else printf("%d\n", max_cost);
 
+
 	}
 
-	 */
-
-	//dijkstra(mygraph, src_vertex, my_auxvector);
 
 
 
-
+	/*
 	mygraph = graph_mat_adj_init(5);
 	my_auxvector = aux_vector_init(5);
 
@@ -108,7 +115,7 @@ int main(int argc, char *argv[])
 	if(max_cost < 0 || max_cost == INT_MAX)
 		printf("no path\n");
 	else printf("%d\n", max_cost);
-
+	 */
 	//destroy graph and aux vector
 	graph_mat_adj_destroy(mygraph);
 	aux_vector_destroy(my_auxvector);

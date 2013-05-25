@@ -167,7 +167,7 @@ void aux_vector_updatecost_dijkstra(aux_vector_t *my_auxvector, GRAPH_MAT_ADJ *m
 	for(i = 0; i < mygraph->total_vertexes; i++)
 	{
 		//pra ter uma aresta nao pode ser zero e nao pode ser infinito
-		if(mygraph->edge[pos][i] > 0 && mygraph->edge[pos][i] < INT_MAX)
+		if(mygraph->edge[pos][i] > 0 && mygraph->edge[pos][i] < INT_MAX && my_auxvector->isvalid[i] == 1)
 		{
 
 			if (my_auxvector->cost[i] > my_auxvector->cost[pos] + mygraph->edge[pos][i] &&
@@ -199,21 +199,19 @@ void aux_vector_updatecost_prim(aux_vector_t *my_auxvector, GRAPH_MAT_ADJ *mygra
 
 	for(i = 0; i < mygraph->total_vertexes; i++)
 	{
+
 		//pra ter uma aresta nao pode ser zero e nao pode ser infinito
-		if(mygraph->edge[pos][i] > 0 && mygraph->edge[pos][i] < INT_MAX)
+		if(mygraph->edge[pos][i] > 0 && mygraph->edge[pos][i] < INT_MAX && my_auxvector->isvalid[i] == 1)
 		{
 
-			if (my_auxvector->cost[i] > mygraph->edge[pos][i] &&
-					my_auxvector->cost[pos] != INT_MAX) {
+			if (my_auxvector->cost[i] > mygraph->edge[pos][i] ) {
 
-				my_auxvector->cost[i] = my_auxvector->cost[pos] + mygraph->edge[pos][i];
+				my_auxvector->cost[i] =  mygraph->edge[pos][i];
+				aux_vector_update_predec(my_auxvector, i , pos);
+
 
 
 			}
-
-			//atualiza tambem o predec
-			// i-> vertice atual visitado ; pos-> quem esta visitando (predec)
-			if(my_auxvector->cost[i] != 0) aux_vector_update_predec(my_auxvector, i , pos);
 
 		}
 
@@ -305,6 +303,9 @@ int my_auxvector_travel_tree_and_return_max_cost_prim(GRAPH_MAT_ADJ *mygraph, au
 	int max_cost, control;
 
 
+	if(pos_end == pos_start ) return 0;
+
+
 	pos_vertex = pos_end;
 	pos_predec = my_auxvector->predec[pos_vertex];
 	max_cost = -1;
@@ -313,16 +314,20 @@ int my_auxvector_travel_tree_and_return_max_cost_prim(GRAPH_MAT_ADJ *mygraph, au
 	//aux mal formado
 	control = 0;
 
-	while(pos_vertex != pos_start && pos_predec != -1 && control < 100)
+
+	while(pos_vertex != pos_start && control < 100)
 	{
-		/*
+
+			/*
 			printf("passando de %d a %d com custo: %d\n",my_auxvector->vertex[pos_predec],
-					my_auxvector->vertex[pos_vertex], mygraph->edge[pos_predec][pos_vertex]);
-		 */
+					my_auxvector->vertex[pos_vertex], my_auxvector->cost[pos_vertex]);
+			*/
+
 		//printf("max cost vale %d\n", max_cost);
-		if(max_cost < mygraph->edge[pos_predec][pos_vertex])
+		if(max_cost < my_auxvector->cost[pos_vertex])
 		{
-			max_cost = mygraph->edge[pos_predec][pos_vertex];
+			//max_cost = mygraph->edge[pos_predec][pos_vertex];
+			max_cost = my_auxvector->cost[pos_vertex];
 
 		}
 		pos_vertex = pos_predec;

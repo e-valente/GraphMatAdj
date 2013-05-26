@@ -33,6 +33,8 @@ void dijkstra(GRAPH_MAT_ADJ *mygraph, int posvertex_ini, aux_vector_t* my_auxvec
 
 	//insiro o primeiro elemento na árvore
 	pos = posvertex_ini;
+	aux_vector_addcost(my_auxvector, pos, 0);
+	aux_vector_updatecost_prim(my_auxvector, mygraph, pos);
 	aux_vector_update_isvalid(my_auxvector, pos, 0);
 
 	while(aux_vector_has_valid_elems(my_auxvector) == 1 && pos != -1)

@@ -178,10 +178,6 @@ void aux_vector_updatecost_dijkstra(aux_vector_t *my_auxvector, GRAPH_MAT_ADJ *m
 
 			}
 
-			//atualiza tambem o predec
-			// i-> vertice atual visitado ; pos-> quem esta visitando (predec)
-			if(my_auxvector->cost[i] != 0) aux_vector_update_predec(my_auxvector, i , pos);
-
 		}
 
 	}
@@ -278,7 +274,7 @@ int my_auxvector_travel_tree(GRAPH_MAT_ADJ *mygraph, aux_vector_t * my_auxvector
 	//vetor aux mal formado, avisaremos
 	if(control >= 100)
 	{
-		fprintf(stderr, "\nmy_auxvector_travel_tree: Overflow, bad aux vector!\n");
+		//fprintf(stderr, "\nmy_auxvector_travel_tree: Overflow, bad aux vector!\n");
 		return -1;
 	}
 
@@ -342,7 +338,7 @@ int my_auxvector_travel_tree_and_return_max_cost_prim(GRAPH_MAT_ADJ *mygraph, au
 	//vetor aux mal formado, avisaremos
 	if(control >= 100)
 	{
-		fprintf(stderr, "\nmy_auxvector_travel_tree: Overflow, bad aux vector!\n");
+		//fprintf(stderr, "\nmy_auxvector_travel_tree: Overflow, bad aux vector!\n");
 		return -1;
 	}
 

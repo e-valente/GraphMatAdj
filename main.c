@@ -11,14 +11,68 @@
 
 #include "graph_mat_adj.h"
 #include "aux_vector.h"
-#include "dijkstra.h"
-#include "prim.h"
+//#include "dijkstra.h"
+//#include "prim.h"
+#include "spot.h"
 
 int main(int argc, char *argv[])
 {
 	GRAPH_MAT_ADJ *mygraph;
 	aux_vector_t *my_auxvector;
+	spots_t *my_spots;
 
+
+
+	//entrada T3 - grafos
+	int nspots, nsat_channels;
+	int x_spot, y_spot, weight;
+	int i, j;
+
+	scanf("%d %d", &nsat_channels, &nspots);
+
+
+	//inicia grafos
+	mygraph = graph_mat_adj_init(nspots);
+	my_auxvector = aux_vector_init(nspots);
+	my_spots = spots_init(nspots);
+
+	//obtem postos e cria vertices
+	for(i = 0; i < nspots; i++)
+	{
+		//coordenada de cada posto (spot)
+		scanf("%d %d", &x_spot, &y_spot);
+		my_spots->x[i] = x_spot;
+		my_spots->y[i] = y_spot;
+
+		//cria vertices
+		graph_mat_adj_insert_vertex(mygraph, i, i);
+
+	}
+
+	//spots_print(my_spots);
+
+	//cria as arestas
+	for(i = 0; i < nspots -1; i++)
+	{
+		for(j = i+1; j < nspots; j++)
+		{
+
+			weight = spots_distance(my_spots, i, j);
+			graph_mat_adj_insert_edge(mygraph, i, j, weight);
+
+		}
+
+	}
+
+
+	//TODO -> calcular grau de cada vertice e armazenar
+	//na estrutura de cada vertice..
+
+
+
+
+
+	/*
 	//entrada lab3 - exer1
 	int nvertex, nedges, src_vertex, dst_vertex, weight;
 	int min_cost, trips;
@@ -75,7 +129,7 @@ int main(int argc, char *argv[])
 
 	}
 
-
+	 */
 
 	/*
 	//entrada lab3 - exer2
@@ -142,6 +196,7 @@ int main(int argc, char *argv[])
 
 
 	//destroy graph and aux vector
+	spots_destroy(my_spots);
 	graph_mat_adj_destroy(mygraph);
 	aux_vector_destroy(my_auxvector);
 
@@ -149,74 +204,3 @@ int main(int argc, char *argv[])
 }
 
 
-void dijkstra(GRAPH_MAT_ADJ *mygraph, int posvertex_ini, aux_vector_t* my_auxvector)
-{
-	int i;
-	int pos, pos_parent_on_tree, pos_child_on_tree;
-	//preenche o vetor de predec
-	dijkstra_init(mygraph, my_auxvector);
-
-
-
-	for(i = 0; i < mygraph->total_vertexes; i++)
-	{
-		//ecoar p/ aux vector
-		aux_vector_addcost(my_auxvector, i, mygraph->edge[posvertex_ini][i]);
-		aux_vector_update_predec(my_auxvector, i, -1);
-
-
-
-	}
-
-
-	//insiro o primeiro elemento na árvore
-	pos = posvertex_ini;
-	aux_vector_addcost(my_auxvector, pos, 0);
-	aux_vector_updatecost_prim(my_auxvector, mygraph, pos);
-	aux_vector_update_isvalid(my_auxvector, pos, 0);
-
-	while(aux_vector_has_valid_elems(my_auxvector) == 1 && pos != -1)
-	{
-		//insere segundo elemento
-		//pos -> será o primeiro elemento
-		aux_vector_updatecost_dijkstra(my_auxvector, mygraph, pos);
-		pos = aux_vector_calcmincost(my_auxvector);
-
-		if(pos != -1){
-			aux_vector_next_insert_on_tree(my_auxvector, &pos_parent_on_tree, &pos_child_on_tree);
-			aux_vector_update_isvalid(my_auxvector, pos, 0);
-
-		}
-
-
-	}
-
-}
-
-void dijkstra_init(GRAPH_MAT_ADJ *mygraph, aux_vector_t* my_auxvector)
-{
-	int i;
-	int total = mygraph->total_vertexes;
-
-	for(i = 0; i < total; i++)
-	{
-		aux_vector_addvertex(my_auxvector, i, mygraph->vertex[i]);
-		aux_vector_addcost(my_auxvector, i, 0);
-		aux_vector_update_predec(my_auxvector, i, -1);
-		aux_vector_addmincost(my_auxvector, i, 0);
-
-
-	}
-
-}
-
-void dijkstra_travel_tree(GRAPH_MAT_ADJ *mygraph, aux_vector_t *my_auxvector, int pos_start, int pos_end)
-{
-	my_auxvector_travel_tree(mygraph, my_auxvector, pos_start, pos_end);
-}
-
-int dijkstra_travel_tree_and_return_min_cost(GRAPH_MAT_ADJ *mygraph, aux_vector_t *my_auxvector, int pos_start, int pos_end)
-{
-	return my_auxvector_travel_tree_and_return_min_cost_dijkstra(mygraph, my_auxvector, pos_start, pos_end);
-
-}
